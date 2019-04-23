@@ -30,7 +30,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void onCreate() {
-
+        loadAllData();
     }
 
     private void loadAllData(){
