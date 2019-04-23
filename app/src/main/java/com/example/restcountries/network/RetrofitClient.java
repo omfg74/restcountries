@@ -16,7 +16,7 @@ public class RetrofitClient {
 
     public static Retrofit getInstance(){
         if(okHttpClient==null){
-            getOkhttp();
+            okHttpClient =getOkhttp();
         }
         if (retrofit==null){
             retrofit = new Retrofit.Builder()
@@ -30,7 +30,7 @@ public class RetrofitClient {
         return retrofit;
     }
 
-    private static OkHttpClient getOkhttp() {
+    protected static OkHttpClient getOkhttp() {
         OkHttpClient okhttpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(addInterceptor()).build();
         return okhttpClient;

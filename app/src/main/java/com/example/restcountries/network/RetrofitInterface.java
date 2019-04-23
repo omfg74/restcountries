@@ -11,7 +11,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 
 public interface RetrofitInterface {
-    @FormUrlEncoded
     @GET("rest/v2/all")
     Single<List<Country>> getAllCountries();
 }
