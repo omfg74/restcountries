@@ -32,12 +32,15 @@ public class RetrofitClient {
 
     protected static OkHttpClient getOkhttp() {
         OkHttpClient okhttpClient = new OkHttpClient().newBuilder()
-                .addInterceptor(addInterceptor()).build();
+//                .addInterceptor(addInterceptor())
+                .build();
+
         return okhttpClient;
     }
 
     private static Interceptor addInterceptor() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return httpLoggingInterceptor;
     }
 }

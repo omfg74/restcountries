@@ -3,6 +3,9 @@ package com.example.restcountries;
 import android.app.Application;
 import android.content.Context;
 
+import java.lang.reflect.TypeVariable;
+import java.time.temporal.ValueRange;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -18,5 +21,8 @@ private static Context context;
                 .schemaVersion(0)
                 .migration(new RestCountriesMigration())
                 .build();
+    }
+    public static Context getContext(){
+        return RestCountries.context;
     }
 }

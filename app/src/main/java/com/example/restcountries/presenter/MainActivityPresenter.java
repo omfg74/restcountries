@@ -1,5 +1,7 @@
 package com.example.restcountries.presenter;
 
+import android.graphics.Bitmap;
+
 import com.example.restcountries.Logger;
 import com.example.restcountries.contract.MainActivityContract;
 import com.example.restcountries.model.county.Country;
@@ -10,8 +12,12 @@ import com.example.restcountries.network.RetrofitInterface;
 
 import java.util.List;
 
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
@@ -39,22 +45,54 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     private void loadAllData(){
+//        List<Country>countries
+
         compositeDisposable.add(retrofitInterface
                 .getAllCountries()
                 .subscribeOn(Schedulers.io())
+                .flattenAsObservable((Function<List<Country>, Iterable<?>>) countries -> countries)
+                .flatMap()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<Country>>(){
+                .subscribeWith(new DisposableSingleObserver<Country>() {
+
                     @Override
-                    public void onSuccess(List<Country> countries) {
-                        Logger.toLog("on succsess");
-//                        writeToRealm(countries);
+                    public void onSuccess(Country country) {
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+                });
+    }
+    private ObservableSource<?> loadFlags(String flag, String countryName){
+
+//        //load flag for each counrty and save to gallery
+
+        String filename = generateImageName(countryName);
+
+        compositeDisposable.add(retrofitInterface
+                .getFlag(flag)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Bitmap>() {
+                    @Override
+                    public void onSuccess(Bitmap bitmap) {
+                        Logger.toLog("bitmap "+bitmap.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Logger.toLog("failed load itmap");
                         Logger.toLog("on failure");
+                        Logger.toLog(""+e.getMessage());
+                        Logger.toLog(""+e.getCause());
+                        Logger.toLog(""+e.getStackTrace());
                     }
                 }));
+
     }
 
     private void writeToRealm(final List<Country>countries){
@@ -106,6 +144,12 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     private boolean checkINternetConnection() {
 //check if internet is on
         return false;
+    }
+
+
+    private String generateImageName(String countryName){
+        String[]str  = countryName.split(" ");
+        return str[0];
     }
 
 }
