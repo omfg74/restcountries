@@ -1,6 +1,8 @@
 package com.example.restcountries.network;
 
 import com.example.restcountries.Constants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.Interceptor;
@@ -19,10 +21,13 @@ public class RetrofitClient {
             okHttpClient =getOkhttp();
         }
         if (retrofit==null){
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASEURL)
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
 
@@ -32,7 +37,7 @@ public class RetrofitClient {
 
     protected static OkHttpClient getOkhttp() {
         OkHttpClient okhttpClient = new OkHttpClient().newBuilder()
-//                .addInterceptor(addInterceptor())
+                .addInterceptor(addInterceptor())
                 .build();
 
         return okhttpClient;

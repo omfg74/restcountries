@@ -1,12 +1,13 @@
 package com.example.restcountries.model.realm;
 
 import com.example.restcountries.contract.MainActivityContract;
+import com.example.restcountries.contract.MainListFragmentContract;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class RealmCounty extends RealmObject implements MainActivityContract.Model {
+public class RealmCounty extends RealmObject implements MainActivityContract.Model, MainListFragmentContract.Model {
     private String name;
     private RealmList<RealmCurrency> currency;
     private String flagLink;
