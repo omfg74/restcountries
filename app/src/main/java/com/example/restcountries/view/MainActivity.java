@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void changeFragment() {
         MainListFragment mainListFragment = new MainListFragment();
-        getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.main_fragment_place, mainListFragment)
                 .commit();
 

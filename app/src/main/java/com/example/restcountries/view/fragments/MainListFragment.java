@@ -3,6 +3,7 @@ package com.example.restcountries.view.fragments;
 import android.app.Activity;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restcountries.Logger;
 import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
@@ -30,6 +33,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new MainListFragmentPresenter(this);
         ;
     }
 
@@ -45,19 +49,24 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(RestCountries.getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),2));
         presenter = new MainListFragmentPresenter(this);
+        countriesAdapter = new CountriesAdapter(getActivity());
         recyclerView.setAdapter(countriesAdapter);
+        presenter.onCreate();
+
     }
 
     @Override
-    public void postDataToList(Country country) {
-
+    public void postDataToList(RealmCounty country) {
+        countriesAdapter.apendData(country);
     }
 
     @Override
     public void postPicture(PictureDrawable pictureDrawable, RealmCounty country) {
+        Logger.toLog("new fragmwnt "+country.getName());
         countriesAdapter.apendData(pictureDrawable,country);
     }
 }

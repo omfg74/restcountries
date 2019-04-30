@@ -1,6 +1,9 @@
 package com.example.restcountries.contract;
 
+import android.graphics.drawable.PictureDrawable;
+
 import com.arellomobile.mvp.MvpView;
+import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCurrency;
 
 import io.realm.RealmList;
@@ -34,5 +37,14 @@ public interface MainActivityContract extends MvpView {
         public void setFlagLink(String flagLink);
 
         public void setCapital(String capital);
+
+        public interface ICountry {
+            public Country getCountry();
+            public PictureDrawable getPictureDrawable();
+            public void setPictureDrawable(PictureDrawable pictureDrawable);
+            public void setCountry(Country country);
+
+
+        }
     }
 }

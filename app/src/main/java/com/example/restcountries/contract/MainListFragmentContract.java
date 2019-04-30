@@ -11,7 +11,7 @@ import io.realm.RealmList;
 public interface MainListFragmentContract {
     interface View{
 
-        void postDataToList(Country country);
+        void postDataToList(RealmCounty country);
         void postPicture(PictureDrawable pictureDrawable, RealmCounty country);
 
     }
