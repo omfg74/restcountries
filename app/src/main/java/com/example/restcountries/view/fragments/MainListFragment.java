@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,12 +20,13 @@ import com.example.restcountries.Logger;
 import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
+import com.example.restcountries.interfaces.AdapterCallback;
 import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCounty;
 import com.example.restcountries.presenter.MainListFragmentPresenter;
 import com.example.restcountries.view.adapters.CountriesAdapter;
 
-public class MainListFragment extends Fragment implements MainListFragmentContract.View {
+public class MainListFragment extends Fragment implements MainListFragmentContract.View, AdapterCallback {
     RecyclerView recyclerView;
     View view;
     CountriesAdapter countriesAdapter;
@@ -53,7 +55,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),3));
         presenter = new MainListFragmentPresenter(this);
-        countriesAdapter = new CountriesAdapter(getActivity());
+        countriesAdapter = new CountriesAdapter(getActivity(), this);
         recyclerView.setAdapter(countriesAdapter);
         presenter.onCreate();
 
@@ -68,5 +70,12 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     public void postPicture(PictureDrawable pictureDrawable, RealmCounty country) {
         Logger.toLog("new fragmwnt "+country.getName());
         countriesAdapter.apendData(pictureDrawable,country);
+    }
+
+    @Override
+    public void changeFragment(Bundle bundle) {
+        CountryFragment countryFragment = new CountryFragment();
+        countryFragment.setArguments(bundle);
+        countryFragment.show(getActivity().getSupportFragmentManager(),"dialg_fragment");
     }
 }

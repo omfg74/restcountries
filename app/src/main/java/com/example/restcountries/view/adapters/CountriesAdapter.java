@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -28,19 +30,23 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.restcountries.Logger;
 import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
+import com.example.restcountries.interfaces.AdapterCallback;
 import com.example.restcountries.model.realm.RealmCounty;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
+import com.example.restcountries.view.fragments.CountryFragment;
 
 import io.realm.RealmList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder>{
+public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
     RealmList<RealmCounty> countryList = new RealmList<>();
+    AdapterCallback callback;
 
     Context context;
-    public CountriesAdapter(Context context) {
+    public CountriesAdapter(Context context, AdapterCallback callback) {
         this.context = context;
+        this.callback = callback;
 
     }
 
@@ -70,6 +76,20 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
         }catch (Exception e){e.printStackTrace();}
 
         holder.textView.setText(countryList.get(position).getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("name",countryList.get(position).getName());
+                bundle.putString("capital",countryList.get(position).getCapital());
+                bundle.putString("currency",countryList.get(position).getCurrency().get(0).getName());
+                bundle.putString("currency_symbol",countryList.get(position).getCurrency().get(0).getSymbol());
+                bundle.putString("flag",countryList.get(position).getFlagLink());
+                callback.changeFragment(bundle);
+
+            }
+        });
     }
 
     @Override
@@ -86,10 +106,9 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     public void apendData(RealmCounty country) {
         countryList.add(country);
-
-
         notifyDataSetChanged();
     }
+
 
     public class CountriesViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
