@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -74,5 +76,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 .replace(R.id.main_fragment_place, mainListFragment)
                 .commit();
 
+    }
+
+    @Override
+    public void showAlertDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("No Internet")
+                .setMessage("Please check the internet connection and restart the app")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.exit();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+//                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

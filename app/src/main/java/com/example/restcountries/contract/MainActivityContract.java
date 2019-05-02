@@ -14,9 +14,11 @@ public interface MainActivityContract extends MvpView {
         void makeTost(String s);
         void changeFragment();
 
+        void showAlertDialog();
     }
     interface Presenter{
         void onCreate();
+        void exit();
 
     }
     interface Model {

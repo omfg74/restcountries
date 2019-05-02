@@ -1,7 +1,9 @@
 package com.example.restcountries.presenter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
@@ -185,6 +187,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     private void allertNoInternet() {
         //make dialog to tur internet on or to exit
+       view.showAlertDialog();
     }
 
     private boolean checkINternetConnection() {
@@ -200,4 +203,8 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         return str[0];
     }
 
+    @Override
+    public void exit() {
+        System.exit(0);
+    }
 }

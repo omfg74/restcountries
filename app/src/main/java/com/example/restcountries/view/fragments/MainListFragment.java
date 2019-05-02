@@ -51,7 +51,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),3));
         presenter = new MainListFragmentPresenter(this);
         countriesAdapter = new CountriesAdapter(getActivity());
         recyclerView.setAdapter(countriesAdapter);
