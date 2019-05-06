@@ -26,7 +26,7 @@ public class CountryFargmentPresenter implements CountryFragmentContract.Present
 
         view.setName(bundle.getString("name"));
         view.setCapital(bundle.getString("capital"));
-        view.setCurency(bundle.getString("curency"),bundle.getString("symbol"));
+        view.setCurency(bundle.getString("currency"),bundle.getString("currency_symbol"));
     }
 
     @Override

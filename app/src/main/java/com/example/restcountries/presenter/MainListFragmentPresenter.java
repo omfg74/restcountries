@@ -21,6 +21,7 @@ import com.example.restcountries.Logger;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
 import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.realm.RealmCurrency;
 
 
 import io.reactivex.Observable;
@@ -58,9 +59,11 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
     private void loadDatafromrealm(){
 //        List<RealmCounty> realmCountyList = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<RealmCounty>realmCounties = realm.where(RealmCounty.class).findAll();
-        Logger.toLog("Realm data size "+realmCounties.size());
-        loadPictures(realmCounties);
+        RealmResults<RealmCounty>realmCountries = realm.where(RealmCounty.class).findAll();
+        RealmList<RealmCurrency>currencies  = realmCountries.get(0).getCurrency();
+        Logger.toLog("Realm currency "+currencies.get(0).getName());
+//        Logger.toLog("Realm data size "+realmCounties.size());
+        loadPictures(realmCountries);
 
 
 

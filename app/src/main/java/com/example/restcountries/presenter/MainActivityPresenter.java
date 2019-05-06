@@ -79,6 +79,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void onCreate() {
+
         retrofitInterface = RetrofitClient.getInstance().create(RetrofitInterface.class);
         checkINternetConnection();
         checkIfRealmIsEmpty();
@@ -197,11 +198,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-
-    private String generateImageName(String countryName) {
-        String[] str = countryName.split(" ");
-        return str[0];
-    }
 
     @Override
     public void exit() {

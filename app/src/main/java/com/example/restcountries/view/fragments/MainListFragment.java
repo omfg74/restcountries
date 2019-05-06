@@ -63,12 +63,15 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
 
     @Override
     public void postDataToList(RealmCounty country) {
+//        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
+
         countriesAdapter.apendData(country);
     }
 
     @Override
     public void postPicture(PictureDrawable pictureDrawable, RealmCounty country) {
-        Logger.toLog("new fragmwnt "+country.getName());
+//        Logger.toLog("new fragmwnt "+country.getName());
+//        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
         countriesAdapter.apendData(pictureDrawable,country);
     }
 

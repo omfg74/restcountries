@@ -100,12 +100,15 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     public void apendData(PictureDrawable pictureDrawable, RealmCounty country) {
         countryList.add(country);
+        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
         this.pictureDrawable = pictureDrawable;
         notifyDataSetChanged();
     }
 
     public void apendData(RealmCounty country) {
         countryList.add(country);
+        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
+
         notifyDataSetChanged();
     }
 
