@@ -1,27 +1,21 @@
 package com.example.restcountries.view.fragments;
 
-import android.app.Activity;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restcountries.Logger;
 import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
 import com.example.restcountries.interfaces.AdapterCallback;
-import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCounty;
 import com.example.restcountries.presenter.MainListFragmentPresenter;
 import com.example.restcountries.view.adapters.CountriesAdapter;

@@ -1,52 +1,28 @@
 package com.example.restcountries.presenter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
-import com.example.restcountries.Logger;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainActivityContract;
 import com.example.restcountries.model.FlagCountry;
 import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCounty;
 import com.example.restcountries.model.realm.RealmCurrency;
-import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
 import com.example.restcountries.network.RetrofitClient;
 import com.example.restcountries.network.RetrofitInterface;
 
-import java.nio.file.attribute.AclEntryType;
 import java.util.ArrayList;
 import java.util.List;
 
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -94,7 +70,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                         .doOnError(new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                Logger.toLog("on error");
                                 view.makeTost("Error loading data");
                             }
                         })
@@ -124,15 +99,12 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 .doOnError(new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Logger.toLog("Error ");
-                        Logger.toLog(" " + throwable.getMessage());
+
                     }
                 })
                 .flatMap(new Function<List<Country>, ObservableSource<Country>>() {
                     @Override
                     public ObservableSource<Country> apply(List<Country> countries) throws Exception {
-                        Logger.toLog("get all data");
-                        Logger.toLog("country " + countries.size());
                         return Observable.fromIterable(countries).subscribeOn(Schedulers.io());
                     }
                 });
@@ -144,8 +116,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 //        realm.beginTransaction();
         try {
             realm.beginTransaction();
-
-            Logger.toLog("realm start" + country.getName());
             realmCounrty = realm.createObject(RealmCounty.class);
             RealmList<RealmCurrency> realmCurrencyList = new RealmList<>();
             realmCounrty.setName(country.getName());

@@ -2,8 +2,6 @@ package com.example.restcountries.contract;
 
 import android.graphics.drawable.PictureDrawable;
 
-import com.example.restcountries.Logger;
-import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCounty;
 import com.example.restcountries.model.realm.RealmCurrency;
 
