@@ -19,15 +19,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.example.restcountries.R;
 import com.example.restcountries.interfaces.AdapterCallback;
+import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
+
+import java.util.ArrayList;
 
 import io.realm.RealmList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
-    RealmList<RealmCountry> countryList = new RealmList<>();
+    ArrayList<Country> countryList = new ArrayList<>();
     AdapterCallback callback;
 
     Context context;
@@ -51,7 +54,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
     public void onBindViewHolder(@NonNull CountriesViewHolder holder, int position) {
 //        holder.imageView.setImageDrawable(pictureDrawable);
         try {
-            Uri uri = Uri.parse(countryList.get(position).getFlagLink());
+            Uri uri = Uri.parse(countryList.get(position).getFlag());
             requestBuilder = Glide.with((Activity) context)
                     .as(PictureDrawable.class)
                     .transition(withCrossFade())
@@ -70,9 +73,9 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
                 Bundle bundle = new Bundle();
                 bundle.putString("name",countryList.get(position).getName());
                 bundle.putString("capital",countryList.get(position).getCapital());
-                bundle.putString("currency",countryList.get(position).getCurrency().get(0).getName());
-                bundle.putString("currency_symbol",countryList.get(position).getCurrency().get(0).getSymbol());
-                bundle.putString("flag",countryList.get(position).getFlagLink());
+                bundle.putString("currency",countryList.get(position).getCurrencies().get(0).getName());
+                bundle.putString("currency_symbol",countryList.get(position).getCurrencies().get(0).getSymbol());
+                bundle.putString("flag",countryList.get(position).getFlag());
                 callback.changeFragment(bundle);
 
             }
@@ -86,12 +89,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
     }
 
     public void apendData(PictureDrawable pictureDrawable, RealmCountry country) {
-        countryList.add(country);
+//        countryList.add(country);
         this.pictureDrawable = pictureDrawable;
         notifyDataSetChanged();
     }
 
-    public void apendData(RealmCountry country) {
+    public void apendData(Country country) {
         countryList.add(country);
         notifyDataSetChanged();
     }
