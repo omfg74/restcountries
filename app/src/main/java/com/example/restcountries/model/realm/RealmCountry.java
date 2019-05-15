@@ -7,7 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class RealmCounty extends RealmObject implements MainActivityContract.Model, MainListFragmentContract.Model {
+public class RealmCountry extends RealmObject implements MainActivityContract.Model, MainListFragmentContract.Model {
     private String name;
     private RealmList<RealmCurrency> currency;
     private String flagLink;

@@ -16,7 +16,8 @@ import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
 import com.example.restcountries.interfaces.AdapterCallback;
-import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.county.Country;
+import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.presenter.MainListFragmentPresenter;
 import com.example.restcountries.view.adapters.CountriesAdapter;
 
@@ -30,13 +31,12 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new MainListFragmentPresenter(this);
-        ;
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.main_list_fragment,container,false);
         return view;
 
@@ -45,27 +45,22 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),3));
         presenter = new MainListFragmentPresenter(this);
         countriesAdapter = new CountriesAdapter(getActivity(), this);
         recyclerView.setAdapter(countriesAdapter);
-        presenter.onCreate();
+        presenter.onCreate(getArguments());
 
     }
 
     @Override
-    public void postDataToList(RealmCounty country) {
-//        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
-
+    public void postDataToList(Country country) {
         countriesAdapter.apendData(country);
     }
 
     @Override
-    public void postPicture(PictureDrawable pictureDrawable, RealmCounty country) {
-//        Logger.toLog("new fragmwnt "+country.getName());
-//        Logger.toLog("currency  "+country.getCurrency().get(0).getName());
+    public void postPicture(PictureDrawable pictureDrawable, RealmCountry country) {
         countriesAdapter.apendData(pictureDrawable,country);
     }
 
@@ -73,6 +68,6 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     public void changeFragment(Bundle bundle) {
         CountryFragment countryFragment = new CountryFragment();
         countryFragment.setArguments(bundle);
-        countryFragment.show(getActivity().getSupportFragmentManager(),"dialg_fragment");
+        countryFragment.show(getActivity().getSupportFragmentManager(),"dialog_fragment");
     }
 }

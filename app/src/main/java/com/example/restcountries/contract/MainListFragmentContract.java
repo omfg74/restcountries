@@ -1,8 +1,10 @@
 package com.example.restcountries.contract;
 
 import android.graphics.drawable.PictureDrawable;
+import android.os.Bundle;
 
-import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.county.Country;
+import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.realm.RealmCurrency;
 
 import io.realm.RealmList;
@@ -10,8 +12,8 @@ import io.realm.RealmList;
 public interface MainListFragmentContract {
     interface View{
 
-        void postDataToList(RealmCounty country);
-        void postPicture(PictureDrawable pictureDrawable, RealmCounty country);
+        void postDataToList(Country country);
+        void postPicture(PictureDrawable pictureDrawable, RealmCountry country);
 
     }
     interface Model{
@@ -33,7 +35,7 @@ public interface MainListFragmentContract {
         public void setCapital(String capital);
     }
     interface Presenter{
-        void onCreate();
+        void onCreate(Bundle bundle);
 
     }
 }

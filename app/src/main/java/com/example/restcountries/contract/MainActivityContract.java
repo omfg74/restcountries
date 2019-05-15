@@ -6,13 +6,18 @@ import com.arellomobile.mvp.MvpView;
 import com.example.restcountries.model.county.Country;
 import com.example.restcountries.model.realm.RealmCurrency;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
 import io.realm.RealmList;
 
 public interface MainActivityContract extends MvpView {
     interface View{
         void showSplashFregment();
         void makeTost(String s);
-        void changeFragment();
+        void changeFragment(ArrayList<Country> countries);
 
         void showAlertDialog();
     }
@@ -45,8 +50,9 @@ public interface MainActivityContract extends MvpView {
             public PictureDrawable getPictureDrawable();
             public void setPictureDrawable(PictureDrawable pictureDrawable);
             public void setCountry(Country country);
-
-
+        }
+        interface LoadCountryInterface{
+            Observable<Country> loadCountry();
         }
     }
 }

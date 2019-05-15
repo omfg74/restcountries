@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.example.restcountries.R;
 import com.example.restcountries.interfaces.AdapterCallback;
-import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
 
 import io.realm.RealmList;
@@ -27,7 +27,7 @@ import io.realm.RealmList;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
-    RealmList<RealmCounty> countryList = new RealmList<>();
+    RealmList<RealmCountry> countryList = new RealmList<>();
     AdapterCallback callback;
 
     Context context;
@@ -85,13 +85,13 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     }
 
-    public void apendData(PictureDrawable pictureDrawable, RealmCounty country) {
+    public void apendData(PictureDrawable pictureDrawable, RealmCountry country) {
         countryList.add(country);
         this.pictureDrawable = pictureDrawable;
         notifyDataSetChanged();
     }
 
-    public void apendData(RealmCounty country) {
+    public void apendData(RealmCountry country) {
         countryList.add(country);
         notifyDataSetChanged();
     }

@@ -8,24 +8,22 @@ import android.net.NetworkInfo;
 import com.bumptech.glide.RequestBuilder;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainActivityContract;
+import com.example.restcountries.model.DomanRepository.DbModel;
 import com.example.restcountries.model.FlagCountry;
+import com.example.restcountries.model.DomanRepository.NetworkModel;
 import com.example.restcountries.model.county.Country;
-import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.realm.RealmCurrency;
-import com.example.restcountries.network.RetrofitClient;
 import com.example.restcountries.network.RetrofitInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -41,13 +39,15 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     private RequestBuilder<PictureDrawable> requestBuilder;
     private RetrofitInterface retrofitInterface;
     private FlagCountry flagCountry;
+    RealmCountry realmCkeck;
+    private MainActivityContract.Model.LoadCountryInterface loadCountryInterface;
     private List<FlagCountry> flagCountries = new ArrayList<>();
 
     int i = 0;
 
     public MainActivityPresenter(MainActivityContract.View view) {
         this.view = view;
-        this.realmCounrty = new RealmCounty();
+        this.realmCounrty = new RealmCountry();
         this.flagCountry = new FlagCountry();
 
     }
@@ -56,15 +56,16 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void onCreate() {
 
-        retrofitInterface = RetrofitClient.getInstance().create(RetrofitInterface.class);
+//        retrofitInterface = RetrofitClient.getInstance().create(RetrofitInterface.class);
         checkINternetConnection();
         checkIfRealmIsEmpty();
 
     }
 
-    void loadFromNetwork() {
+    void loadCountries() {
+        ArrayList<Country> countries = new ArrayList<>();
         compositeDisposable.add(
-                loadAllData()
+                loadCountryInterface.loadCountry()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnError(new Consumer<Throwable>() {
@@ -76,38 +77,25 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                         .doOnComplete(new Action() {
                             @Override
                             public void run() throws Exception {
-                                view.changeFragment();
+                                view.changeFragment(countries);
                             }
                         })
                         .subscribe(
                                 new Consumer<Country>() {
                                     @Override
                                     public void accept(Country country) throws Exception {
-                                        writeToRealm(country);
+//                                        Realm realm = Realm.getDefaultInstance();
+//                                        realmCkeck = realm.where(RealmCountry.class).findFirst();
+
+                                        if (loadCountryInterface instanceof NetworkModel) {
+                                            writeToRealm(country);
+                                        }
+                                        countries.add(country);
                                     }
 
                                 }));
 
 
-    }
-
-    private Observable<Country> loadAllData() {
-        return retrofitInterface
-                .getAllCountries()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
-                })
-                .flatMap(new Function<List<Country>, ObservableSource<Country>>() {
-                    @Override
-                    public ObservableSource<Country> apply(List<Country> countries) throws Exception {
-                        return Observable.fromIterable(countries).subscribeOn(Schedulers.io());
-                    }
-                });
     }
 
     private void writeToRealm(Country country) {
@@ -116,7 +104,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 //        realm.beginTransaction();
         try {
             realm.beginTransaction();
-            realmCounrty = realm.createObject(RealmCounty.class);
+            realmCounrty = realm.createObject(RealmCountry.class);
             RealmList<RealmCurrency> realmCurrencyList = new RealmList<>();
             realmCounrty.setName(country.getName());
             realmCounrty.setCapital(country.getCapital());
@@ -143,27 +131,32 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     private void checkIfRealmIsEmpty() {
         Realm realm = Realm.getDefaultInstance();
-        RealmCounty realmCounty = realm.where(RealmCounty.class).findFirst();
-        if (realmCounty != null) {
-            view.changeFragment();
+        realmCkeck = realm.where(RealmCountry.class).findFirst();
+        if (realmCkeck != null) {
+//            view.changeFragment();
+            loadCountryInterface = new DbModel();
         } else {
+
             if (checkINternetConnection()) {
-                loadFromNetwork();
+                loadCountryInterface = new NetworkModel();
+//                loadCountries();
             } else {
                 allertNoInternet();
+                return;
             }
         }
 
+        loadCountries();
     }
 
     private void allertNoInternet() {
         //make dialog to tur internet on or to exit
-       view.showAlertDialog();
+        view.showAlertDialog();
     }
 
     private boolean checkINternetConnection() {
-//check if internet is on
-        ConnectivityManager connectivityManager= (ConnectivityManager) RestCountries.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        //check if internet is on
+        ConnectivityManager connectivityManager = (ConnectivityManager) RestCountries.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

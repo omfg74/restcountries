@@ -1,12 +1,18 @@
 package com.example.restcountries.presenter;
 
 import android.graphics.drawable.PictureDrawable;
+import android.os.Bundle;
 
 import com.bumptech.glide.RequestBuilder;
+import com.example.restcountries.Constants;
 import com.example.restcountries.contract.MainListFragmentContract;
-import com.example.restcountries.model.realm.RealmCounty;
+import com.example.restcountries.model.county.Country;
+import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.realm.RealmCurrency;
 
+
+import java.nio.Buffer;
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,34 +30,37 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
 
     public MainListFragmentPresenter(MainListFragmentContract.View view) {
         this.view =  view;
-        this.model = new RealmCounty();
+        this.model = new RealmCountry();
 
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(Bundle bundle) {
+       ArrayList<Country>countries= new ArrayList<>();
+               countries = (ArrayList<Country>) bundle.getSerializable(Constants.COUNTRIES_KEY);
 
 
-        loadDatafromrealm();
+
+        loadPictures(countries);
     }
 
     private void loadDatafromrealm(){
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<RealmCounty>realmCountries = realm.where(RealmCounty.class).findAll();
-        RealmList<RealmCurrency>currencies  = realmCountries.get(0).getCurrency();
-        loadPictures(realmCountries);
+//        Realm realm = Realm.getDefaultInstance();
+//        RealmResults<RealmCountry>realmCountries = realm.where(RealmCountry.class).findAll();
+//        RealmList<RealmCurrency>currencies  = realmCountries.get(0).getCurrency();
+//        loadPictures(realmCountries);
 
 
 
     }
-    private void loadPictures(RealmResults<RealmCounty> realmResults){
+    private void loadPictures(ArrayList<Country> countries){
         PictureDrawable pictureDrawable;
-        Observable.fromIterable(realmResults)
+        Observable.fromIterable(countries)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<RealmCounty>() {
+                .subscribe(new Consumer<Country>() {
                     @Override
-                    public void accept(RealmCounty realmCounty) throws Exception {
-                        view.postDataToList(realmCounty);
+                    public void accept(Country country) throws Exception {
+                        view.postDataToList(country);
                     }
                 });
         }
