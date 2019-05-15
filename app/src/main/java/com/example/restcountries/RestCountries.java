@@ -10,7 +10,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class RestCountries extends Application {
-private static Context context;
+    private static Context context;
 
     @Override
     public void onCreate() {
@@ -22,7 +22,8 @@ private static Context context;
                 .migration(new RestCountriesMigration())
                 .build();
     }
-    public static Context getContext(){
+
+    public static Context getContext() {
         return RestCountries.context;
     }
 }

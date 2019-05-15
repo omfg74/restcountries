@@ -12,15 +12,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static Retrofit retrofit =null;
+    private static Retrofit retrofit = null;
     private static OkHttpClient okHttpClient;
 
 
-    public static Retrofit getInstance(){
-        if(okHttpClient==null){
-            okHttpClient =getOkhttp();
+    public static Retrofit getInstance() {
+        if (okHttpClient == null) {
+            okHttpClient = getOkhttp();
         }
-        if (retrofit==null){
+        if (retrofit == null) {
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
@@ -30,7 +30,6 @@ public class RetrofitClient {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
-
         }
         return retrofit;
     }

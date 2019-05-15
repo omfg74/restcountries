@@ -29,31 +29,19 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
     RequestBuilder<PictureDrawable> requestBuilder;
 
     public MainListFragmentPresenter(MainListFragmentContract.View view) {
-        this.view =  view;
+        this.view = view;
         this.model = new RealmCountry();
 
     }
 
     @Override
     public void onCreate(Bundle bundle) {
-       ArrayList<Country>countries= new ArrayList<>();
-               countries = (ArrayList<Country>) bundle.getSerializable(Constants.COUNTRIES_KEY);
-
-
-
+        ArrayList<Country> countries = new ArrayList<>();
+        countries = (ArrayList<Country>) bundle.getSerializable(Constants.COUNTRIES_KEY);
         loadPictures(countries);
     }
 
-    private void loadDatafromrealm(){
-//        Realm realm = Realm.getDefaultInstance();
-//        RealmResults<RealmCountry>realmCountries = realm.where(RealmCountry.class).findAll();
-//        RealmList<RealmCurrency>currencies  = realmCountries.get(0).getCurrency();
-//        loadPictures(realmCountries);
-
-
-
-    }
-    private void loadPictures(ArrayList<Country> countries){
+    private void loadPictures(ArrayList<Country> countries) {
         PictureDrawable pictureDrawable;
         Observable.fromIterable(countries)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,6 +51,6 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
                         view.postDataToList(country);
                     }
                 });
-        }
+    }
 
 }

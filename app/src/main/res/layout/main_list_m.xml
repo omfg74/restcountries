@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_margin="4dp"
     android:layout_height="100dp">
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:id="@+id/recyClerViewImageView"
-        />
+        android:id="@+id/recyClerViewImageView" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/alphaWhite"
-        >
+        android:background="@color/alphaWhite">
+
         <TextView
             android:layout_marginLeft="2dp"
             android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerViewTextView"
-            />
+            android:id="@+id/recyclerViewTextView" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

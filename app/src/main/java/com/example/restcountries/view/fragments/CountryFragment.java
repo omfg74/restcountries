@@ -19,6 +19,7 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
     private ImageView flagImageView;
     private TextView nameTextView, capitalTextView, currencyTextView;
     private CountryFragmentContract.Presenter presenter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
         capitalTextView = view.findViewById(R.id.capital_textView);
         currencyTextView = view.findViewById(R.id.currency_textView);
         presenter.onCreate(getArguments());
-        presenter.loadFlag(flagImageView,getArguments());
+        presenter.loadFlag(flagImageView, getArguments());
 
     }
 
@@ -57,7 +58,7 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
 
     @Override
     public void setCurency(String curancy, String symbol) {
-        currencyTextView.setText(curancy+" "+symbol);
+        currencyTextView.setText(curancy + " " + symbol);
     }
 
     @Override

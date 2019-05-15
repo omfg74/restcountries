@@ -17,6 +17,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class CountryFargmentPresenter implements CountryFragmentContract.Presenter {
 
     CountryFragmentContract.View view;
+
     public CountryFargmentPresenter(CountryFragmentContract.View view) {
         this.view = view;
     }
@@ -26,12 +27,12 @@ public class CountryFargmentPresenter implements CountryFragmentContract.Present
 
         view.setName(bundle.getString("name"));
         view.setCapital(bundle.getString("capital"));
-        view.setCurency(bundle.getString("currency"),bundle.getString("currency_symbol"));
+        view.setCurency(bundle.getString("currency"), bundle.getString("currency_symbol"));
     }
 
     @Override
     public void loadFlag(ImageView imageView, Bundle bundle) {
-        RequestBuilder<PictureDrawable>requestBuilder;
+        RequestBuilder<PictureDrawable> requestBuilder;
         Uri uri = Uri.parse(bundle.getString("flag"));
         requestBuilder = Glide.with(RestCountries.getContext())
                 .as(PictureDrawable.class)

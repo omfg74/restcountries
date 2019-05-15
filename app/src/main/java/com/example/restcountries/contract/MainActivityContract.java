@@ -14,22 +14,27 @@ import io.reactivex.Observable;
 import io.realm.RealmList;
 
 public interface MainActivityContract extends MvpView {
-    interface View{
+    interface View {
         void showSplashFregment();
+
         void makeTost(String s);
+
         void changeFragment(ArrayList<Country> countries);
 
         void showAlertDialog();
     }
-    interface Presenter{
+
+    interface Presenter {
         void onCreate();
+
         void exit();
 
     }
+
     interface Model {
 
 
-    public String getName();
+        public String getName();
 
         public RealmList<RealmCurrency> getCurrency();
 
@@ -45,14 +50,11 @@ public interface MainActivityContract extends MvpView {
 
         public void setCapital(String capital);
 
-        public interface ICountry {
-            public Country getCountry();
-            public PictureDrawable getPictureDrawable();
-            public void setPictureDrawable(PictureDrawable pictureDrawable);
-            public void setCountry(Country country);
-        }
-        interface LoadCountryInterface{
+        interface LoadCountryInterface {
             Observable<Country> loadCountry();
+        }
+        interface DataBaseWriterInterface{
+            void writeToDatabase(Country country);
         }
     }
 }

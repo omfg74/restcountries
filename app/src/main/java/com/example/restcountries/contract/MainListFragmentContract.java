@@ -10,13 +10,13 @@ import com.example.restcountries.model.realm.RealmCurrency;
 import io.realm.RealmList;
 
 public interface MainListFragmentContract {
-    interface View{
+    interface View {
 
         void postDataToList(Country country);
-        void postPicture(PictureDrawable pictureDrawable, RealmCountry country);
 
     }
-    interface Model{
+
+    interface Model {
 
         public String getName();
 
@@ -34,7 +34,8 @@ public interface MainListFragmentContract {
 
         public void setCapital(String capital);
     }
-    interface Presenter{
+
+    interface Presenter {
         void onCreate(Bundle bundle);
 
     }

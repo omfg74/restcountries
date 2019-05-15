@@ -37,7 +37,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.main_list_fragment,container,false);
+        view = inflater.inflate(R.layout.main_list_fragment, container, false);
         return view;
 
     }
@@ -46,7 +46,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(RestCountries.getContext(), 3));
         presenter = new MainListFragmentPresenter(this);
         countriesAdapter = new CountriesAdapter(getActivity(), this);
         recyclerView.setAdapter(countriesAdapter);
@@ -60,14 +60,9 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     }
 
     @Override
-    public void postPicture(PictureDrawable pictureDrawable, RealmCountry country) {
-        countriesAdapter.apendData(pictureDrawable,country);
-    }
-
-    @Override
     public void changeFragment(Bundle bundle) {
         CountryFragment countryFragment = new CountryFragment();
         countryFragment.setArguments(bundle);
-        countryFragment.show(getActivity().getSupportFragmentManager(),"dialog_fragment");
+        countryFragment.show(getActivity().getSupportFragmentManager(), "dialog_fragment");
     }
 }
