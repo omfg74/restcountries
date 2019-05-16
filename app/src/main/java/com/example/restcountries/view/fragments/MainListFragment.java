@@ -71,6 +71,6 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putSerializable();
-        presenter.onSaveInstanceState();
+        presenter.onSaveInstanceState(outState);
     }
 }
