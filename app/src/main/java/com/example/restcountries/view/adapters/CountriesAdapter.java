@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
     ArrayList<Country> countryList = new ArrayList<>();
     AdapterCallback callback;
-    PictureDrawable pictureDrawable;
+    ArrayList<PictureDrawable> pictureDrawableList =new ArrayList<>();
 
     Context context;
 
@@ -39,7 +40,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     }
 
-    RequestBuilder<PictureDrawable> requestBuilder;
+//    RequestBuilder<PictureDrawable> requestBuilder;
 //    PictureDrawable pictureDrawable;
 
     @NonNull
@@ -47,6 +48,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
     public CountriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.main_list_m, parent, false);
+       view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         return new CountriesViewHolder(view);
     }
 
@@ -65,7 +67,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 //            e.printStackTrace();
 //        }
 
-        holder.imageView.setImageDrawable(pictureDrawable);
+//        Log.d("Log","adadpter "+pictureDrawable);
+        holder.imageView.setImageDrawable(pictureDrawableList.get(position));
         holder.textView.setText(countryList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -89,7 +92,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     public void apendData(Country country, PictureDrawable pictureDrawable) {
         countryList.add(country);
-        this.pictureDrawable = pictureDrawable;
+        pictureDrawableList.add(pictureDrawable);
         notifyDataSetChanged();
     }
 

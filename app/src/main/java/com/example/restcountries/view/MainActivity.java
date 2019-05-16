@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.restcountries.Constants;
@@ -16,6 +18,7 @@ import com.example.restcountries.contract.MainActivityContract;
 import com.example.restcountries.model.country.Country;
 import com.example.restcountries.presenter.MainActivityPresenter;
 import com.example.restcountries.view.fragments.MainListFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,42 +27,21 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
     MainActivityPresenter presenter;
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                    Toast.makeText(MainActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
-    }
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        showSplashFregment();//for test
+        progressBar = findViewById(R.id.progressBar);
         presenter = new MainActivityPresenter(this);
+
         presenter.onCreate();
-//        ActivityCompat.requestPermissions(MainActivity.this
-//                ,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                1);
-
-    }
-
-    @Override
-    public void showSplashFregment() {
     }
 
     @Override
     public void makeTost(String s) {
-
+        Snackbar.make(progressBar,s,Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -88,5 +70,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    @Override
+    public void progressBarSetVisible() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void progressBarSetInvisible() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void progressBarSetProgress(int progress) {
+        progressBar.setProgress(progress);
+    }
+
+    @Override
+    public void progressBarSetSize(int size) {
+        progressBar.setMax(size);
     }
 }

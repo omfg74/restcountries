@@ -40,6 +40,7 @@ public class NetworkModel implements MainActivityContract.Model.LoadCountryInter
                 .flatMap(new Function<List<Country>, ObservableSource<Country>>() {
                     @Override
                     public ObservableSource<Country> apply(List<Country> countries) throws Exception {
+
                         return Observable.fromIterable(countries).subscribeOn(Schedulers.io());
 
                     }

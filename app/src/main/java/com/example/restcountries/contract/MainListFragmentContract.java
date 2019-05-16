@@ -37,5 +37,6 @@ public interface MainListFragmentContract {
     interface Presenter {
         void onCreate(Bundle bundle);
 
+        void onSaveInstanceState( Bundle outState);
     }
 }

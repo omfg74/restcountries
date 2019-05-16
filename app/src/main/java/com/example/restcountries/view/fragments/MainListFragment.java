@@ -2,6 +2,7 @@ package com.example.restcountries.view.fragments;
 
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
 
     @Override
     public void postDataToList(Country country, PictureDrawable pictureDrawable) {
+        Log.d("Log","pic "+pictureDrawable);
         countriesAdapter.apendData(country, pictureDrawable);
     }
 
@@ -63,5 +65,12 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
         CountryFragment countryFragment = new CountryFragment();
         countryFragment.setArguments(bundle);
         countryFragment.show(getActivity().getSupportFragmentManager(), "dialog_fragment");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        outState.putSerializable();
+        presenter.onSaveInstanceState();
     }
 }

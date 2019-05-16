@@ -13,6 +13,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BaseTarget;
@@ -22,9 +23,14 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainActivityContract;
+import com.example.restcountries.interfaces.DrawableCallback;
 import com.example.restcountries.model.country.Country;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
 
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Observable;
 
@@ -33,8 +39,16 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class PictureLoader implements MainActivityContract.Model.PictoreLoaderInterface {
     PictureDrawable pictureDrawable;
     private RequestBuilder<PictureDrawable> requestBuilder;
+    private DrawableCallback callback;
+
+    public PictureLoader(DrawableCallback callback) {
+        this.callback = callback;
+    }
+
     @Override
-    public PictureDrawable loadPicures(Country country) {
+    public PictureDrawable loadPictures(Country country) {
+
+
         try {
             Uri uri = Uri.parse(country.getFlag());
             requestBuilder = Glide.with(RestCountries.getContext())
@@ -49,79 +63,34 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
                         @Override
                         public boolean onResourceReady(PictureDrawable resource, Object model, Target<PictureDrawable> target, DataSource dataSource, boolean isFirstResource) {
                             if(resource==null){
-                                Log.d("Log","RESOURSE NULL");
+//                                Log.d("Log","RESOURSE NULL");
                             };
-                            pictureDrawable=resource;
+//                            pictureDrawable=resource;
                             return false;
                         }
                     });
             requestBuilder.diskCacheStrategy(DiskCacheStrategy.DATA);
             requestBuilder
                     .load(uri)
-                    .into(new Target<PictureDrawable>() {
-                        @Override
-                        public void onLoadStarted(@Nullable Drawable placeholder) {
-
-                        }
-
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-
-                        }
-
+                    .into(new CustomTarget<PictureDrawable>() {
                         @Override
                         public void onResourceReady(@NonNull PictureDrawable resource, @Nullable Transition<? super PictureDrawable> transition) {
-
+//                            pictureDrawable=resource;
+                            callback.callback(country,resource);
                         }
 
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {
 
                         }
-
-                        @Override
-                        public void getSize(@NonNull SizeReadyCallback cb) {
-
-                        }
-
-                        @Override
-                        public void removeCallback(@NonNull SizeReadyCallback cb) {
-
-                        }
-
-                        @Override
-                        public void setRequest(@Nullable Request request) {
-
-                        }
-
-                        @Nullable
-                        @Override
-                        public Request getRequest() {
-                            return null;
-                        }
-
-                        @Override
-                        public void onStart() {
-
-                        }
-
-                        @Override
-                        public void onStop() {
-Log.d("Log","ON STOP");
-                        }
-
-                        @Override
-                        public void onDestroy() {
-
-                        }
                     });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(pictureDrawable==null){
-            Log.d("Log","PICTURE NULL");
-        };
-        return pictureDrawable;
+//        ; if(pictureDrawable==null){
+//            Log.d("Log","PICTURE NULL");
+//        }
+        return null;
     }
 
 
