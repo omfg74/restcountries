@@ -1,5 +1,5 @@
 
-package com.example.restcountries.model.county;
+package com.example.restcountries.model.country;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

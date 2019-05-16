@@ -19,19 +19,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.example.restcountries.R;
 import com.example.restcountries.interfaces.AdapterCallback;
-import com.example.restcountries.model.county.Country;
-import com.example.restcountries.model.realm.RealmCountry;
+import com.example.restcountries.model.country.Country;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
 
 import java.util.ArrayList;
-
-import io.realm.RealmList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountriesViewHolder> {
     ArrayList<Country> countryList = new ArrayList<>();
     AdapterCallback callback;
+    PictureDrawable pictureDrawable;
 
     Context context;
 
@@ -42,7 +40,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
     }
 
     RequestBuilder<PictureDrawable> requestBuilder;
-    PictureDrawable pictureDrawable;
+//    PictureDrawable pictureDrawable;
 
     @NonNull
     @Override
@@ -54,18 +52,20 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
 
     @Override
     public void onBindViewHolder(@NonNull CountriesViewHolder holder, int position) {
-        try {
-            Uri uri = Uri.parse(countryList.get(position).getFlag());
-            requestBuilder = Glide.with((Activity) context)
-                    .as(PictureDrawable.class)
-                    .transition(withCrossFade())
-                    .listener(new SvgSoftwareLayerSetter());
-            requestBuilder
-                    .load(uri)
-                    .into(holder.imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Uri uri = Uri.parse(countryList.get(position).getFlag());
+//            requestBuilder = Glide.with((Activity) context)
+//                    .as(PictureDrawable.class)
+//                    .transition(withCrossFade())
+//                    .listener(new SvgSoftwareLayerSetter());
+//            requestBuilder
+//                    .load(uri)
+//                    .into(holder.imageView);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        holder.imageView.setImageDrawable(pictureDrawable);
         holder.textView.setText(countryList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -87,8 +87,9 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
         return countryList.size();
     }
 
-    public void apendData(Country country) {
+    public void apendData(Country country, PictureDrawable pictureDrawable) {
         countryList.add(country);
+        this.pictureDrawable = pictureDrawable;
         notifyDataSetChanged();
     }
 

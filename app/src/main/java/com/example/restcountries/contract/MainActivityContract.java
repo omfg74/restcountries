@@ -3,12 +3,12 @@ package com.example.restcountries.contract;
 import android.graphics.drawable.PictureDrawable;
 
 import com.arellomobile.mvp.MvpView;
-import com.example.restcountries.model.county.Country;
+import com.example.restcountries.model.country.Country;
 import com.example.restcountries.model.realm.RealmCurrency;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.realm.RealmList;
@@ -19,7 +19,7 @@ public interface MainActivityContract extends MvpView {
 
         void makeTost(String s);
 
-        void changeFragment(ArrayList<Country> countries);
+        void changeFragment(ArrayList<Country> countries, HashMap<String, PictureDrawable> pictureDrawableMap);
 
         void showAlertDialog();
     }
@@ -55,6 +55,9 @@ public interface MainActivityContract extends MvpView {
         }
         interface DataBaseWriterInterface{
             void writeToDatabase(Country country);
+        }
+        interface PictoreLoaderInterface{
+            PictureDrawable loadPicures(Country country);
         }
     }
 }

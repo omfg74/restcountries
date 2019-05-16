@@ -16,8 +16,7 @@ import com.example.restcountries.R;
 import com.example.restcountries.RestCountries;
 import com.example.restcountries.contract.MainListFragmentContract;
 import com.example.restcountries.interfaces.AdapterCallback;
-import com.example.restcountries.model.county.Country;
-import com.example.restcountries.model.realm.RealmCountry;
+import com.example.restcountries.model.country.Country;
 import com.example.restcountries.presenter.MainListFragmentPresenter;
 import com.example.restcountries.view.adapters.CountriesAdapter;
 
@@ -55,8 +54,8 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     }
 
     @Override
-    public void postDataToList(Country country) {
-        countriesAdapter.apendData(country);
+    public void postDataToList(Country country, PictureDrawable pictureDrawable) {
+        countriesAdapter.apendData(country, pictureDrawable);
     }
 
     @Override

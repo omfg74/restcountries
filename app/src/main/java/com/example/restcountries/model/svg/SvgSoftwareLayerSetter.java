@@ -24,6 +24,7 @@ public class SvgSoftwareLayerSetter implements RequestListener<PictureDrawable> 
                                    Target<PictureDrawable> target, DataSource dataSource, boolean isFirstResource) {
         ImageView view = ((ImageViewTarget<?>) target).getView();
         view.setLayerType(ImageView.LAYER_TYPE_SOFTWARE, null);
+//        PictureDrawable pictureDrawable = resource;
         return false;
     }
 }

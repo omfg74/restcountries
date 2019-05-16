@@ -1,8 +1,8 @@
 package com.example.restcountries.model.DomanRepository;
 
 import com.example.restcountries.contract.MainActivityContract;
-import com.example.restcountries.model.county.Country;
-import com.example.restcountries.model.county.Currency;
+import com.example.restcountries.model.country.Country;
+import com.example.restcountries.model.country.Currency;
 import com.example.restcountries.model.realm.RealmCountry;
 import com.example.restcountries.model.realm.RealmCurrency;
 

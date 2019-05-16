@@ -1,5 +1,5 @@
 
-package com.example.restcountries.model.county;
+package com.example.restcountries.model.country;
 
 import java.util.List;
 

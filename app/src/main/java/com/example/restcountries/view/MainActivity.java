@@ -6,20 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.restcountries.Constants;
 import com.example.restcountries.R;
 import com.example.restcountries.contract.MainActivityContract;
-import com.example.restcountries.model.county.Country;
+import com.example.restcountries.model.country.Country;
 import com.example.restcountries.presenter.MainActivityPresenter;
 import com.example.restcountries.view.fragments.MainListFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
@@ -63,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void changeFragment(ArrayList<Country> countries) {
+    public void changeFragment(ArrayList<Country> countries, HashMap<String, PictureDrawable> pictureDrawableMap) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.COUNTRIES_KEY, countries);
+        bundle.putSerializable(Constants.COUNTRIES_FLAG, pictureDrawableMap);
         MainListFragment mainListFragment = new MainListFragment();
         mainListFragment.setArguments(bundle);
         getSupportFragmentManager()
@@ -85,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                         presenter.exit();
                     }
                 })
-
-                // A null listener allows the button to dismiss the dialog and take no further action.
-//                .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
