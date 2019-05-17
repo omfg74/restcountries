@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         new AlertDialog.Builder(this)
                 .setTitle("No Internet")
                 .setMessage("Please check the internet connection and restart the app")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.exit();
                     }

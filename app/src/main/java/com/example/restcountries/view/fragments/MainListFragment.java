@@ -54,10 +54,6 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
 
     }
 
-    @Override
-    public void postDataToList(Country country, byte[] bytes) {
-        countriesAdapter.apendData(country, bytes);
-    }
 
     @Override
     public void postDataToList(Country country) {
@@ -74,7 +70,6 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-//        outState.putSerializable();
         presenter.onSaveInstanceState(outState);
     }
 }

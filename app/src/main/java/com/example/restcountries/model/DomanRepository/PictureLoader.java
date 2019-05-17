@@ -80,19 +80,9 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
                     .into(new CustomTarget<PictureDrawable>() {
                         @Override
                         public void onResourceReady(@NonNull PictureDrawable resource, @Nullable Transition<? super PictureDrawable> transition) {
-                            if(!useGlide) {
-                                //Приходится ковертировать все в byte[] иначе возникают краши из-за сериализации.
-                                Bitmap bitmap = Bitmap.createBitmap(resource.getIntrinsicWidth(), resource.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                                Canvas canvas = new Canvas(bitmap);
-                                Picture drawable = resource.getPicture();
-                                drawable.draw(canvas);
-                                resource.draw(canvas);
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-                                byte[] bitmapdata = stream.toByteArray();
-                                callback.callback(country, bitmapdata);
-                            }else callback.callback();
+                         callback.callback();
                         }
+
 
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {

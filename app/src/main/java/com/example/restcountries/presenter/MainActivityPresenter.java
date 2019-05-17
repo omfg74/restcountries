@@ -46,7 +46,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
     ArrayList<Country> countries = new ArrayList<>();
     private MainActivityContract.Model.LoadCountryInterface loadCountryInterface;
     private MainActivityContract.Model.PictoreLoaderInterface pictureLoaderInterface;
-    boolean useGlide = true;//change to enable or disable Glide usage in picture loading
+    boolean useGlide = false;//change to enable or disable Glide usage in picture loading
     int i= 0;
 
     public MainActivityPresenter(MainActivityContract.View view) {
@@ -84,8 +84,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
                                 if (loadCountryInterface instanceof NetworkModel) {
                                     view.progressBarSetSize(countries.size());
                                 }else if(loadCountryInterface instanceof DbModel) {
-                                    view.progressBarSetInvisible();
-                                    view.changeFragment(countries);
+                                        view.progressBarSetInvisible();
+                                        view.changeFragment(countries);
+
                                 }
                             }
                         }).subscribe(
@@ -138,20 +139,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
         System.exit(0);
     }
 
-    @Override
-    public void callback(Country country,  byte[] bitmapdata) {
-        if(loadCountryInterface instanceof NetworkModel){
-            if (!useGlide){
-        drawables.add(bitmapdata);
-        view.progressBarSetProgress(drawables.size());
-        biteArrayMap.put(country.getFlag(), bitmapdata);
-        if (drawables.size() == countries.size()) {
-            view.changeFragment(countries, biteArrayMap);
-            view.progressBarSetInvisible();
-        }
-    }
-        }
-    }
 
     @Override
     public void callback() {

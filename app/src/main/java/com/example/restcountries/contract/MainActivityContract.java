@@ -41,24 +41,14 @@ public interface MainActivityContract extends MvpView {
     }
 
     interface Model {
-
-
         public String getName();
-
         public RealmList<RealmCurrency> getCurrency();
-
         public String getFlagLink();
-
         public String getCapital();
-
         public void setName(String name);
-
         public void setCurrency(RealmList<RealmCurrency> currency);
-
         public void setFlagLink(String flagLink);
-
         public void setCapital(String capital);
-
         interface LoadCountryInterface {
             Observable<Country> loadCountry();
         }

@@ -39,14 +39,7 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
     @Override
     public void onCreate(Bundle bundle) {
         countries = (ArrayList<Country>) bundle.getSerializable(Constants.COUNTRIES_KEY);
-
-        if(bundle.containsKey(Constants.COUNTRIES_FLAG)) {
-            byteArrayMap = (HashMap<String, byte[]>) bundle.getSerializable(Constants.COUNTRIES_FLAG);
-            loadPictures(countries, byteArrayMap);
-        }else {
             loadPictures(countries);
-        }
-
     }
 
     private void loadPictures(ArrayList<Country> countries) {
@@ -67,17 +60,5 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
         outState.putSerializable("hashmap", byteArrayMap);
     }
 
-    private void loadPictures(ArrayList<Country> countries, HashMap<String, byte[]> byteArrayMap) {
-
-        Observable.fromIterable(countries)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Country>() {
-                    @Override
-                    public void accept(Country country) throws Exception {
-                        view.postDataToList(country, byteArrayMap.get(country.getFlag()));
-                    }
-                });
-    }
 
 }

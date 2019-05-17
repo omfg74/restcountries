@@ -69,7 +69,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
         // Однако полный Preload бы не получился, тк картинки бы отрисовывались по мере прокрутки.Но для продакшн решения я бы потупил именно так
         // тк пользователю не принципиальна динамика загрузки картиок из кэша, но вероятно это сэкономило бы время процесса первичной загрузки из бд.
 
-        if(useGlide) {
+
             RequestBuilder<PictureDrawable> requestBuilder;
             try {
                 Uri uri = Uri.parse(countryList.get(position).getFlag());
@@ -85,9 +85,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
-            holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(byteArray.get(position), 0, byteArray.get(position).length));
-        }
+
         holder.textView.setText(countryList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -109,11 +107,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Coun
         return countryList.size();
     }
 
-    public void apendData(Country country, byte[] bytes) {
-        countryList.add(country);
-        byteArray.add(bytes);
-        notifyDataSetChanged();
-    }
     //данный метод будет испоьзоваться при отображении картинок с помощю Glide
     public void apendData(Country country) {
         useGlide=true;

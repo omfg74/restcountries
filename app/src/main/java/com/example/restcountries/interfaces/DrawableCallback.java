@@ -5,6 +5,5 @@ import android.graphics.drawable.PictureDrawable;
 import com.example.restcountries.model.country.Country;
 
 public interface DrawableCallback {
-    void callback(Country country, byte[] bitmapdata);
     void callback();
 }

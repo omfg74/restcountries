@@ -10,7 +10,6 @@ import io.realm.RealmList;
 
 public interface MainListFragmentContract {
     interface View {
-        void postDataToList(Country country, byte[] pictureDrawable);
         void postDataToList(Country country);
     }
 
