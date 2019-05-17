@@ -10,33 +10,23 @@ import io.realm.RealmList;
 
 public interface MainListFragmentContract {
     interface View {
-
-        void postDataToList(Country country, PictureDrawable pictureDrawable);
-
+        void postDataToList(Country country, byte[] pictureDrawable);
+        void postDataToList(Country country);
     }
 
     interface Model {
-
-        public String getName();
-
-        public RealmList<RealmCurrency> getCurrency();
-
-        public String getFlagLink();
-
-        public String getCapital();
-
-        public void setName(String name);
-
-        public void setCurrency(RealmList<RealmCurrency> currency);
-
-        public void setFlagLink(String flagLink);
-
-        public void setCapital(String capital);
+        String getName();
+        RealmList<RealmCurrency> getCurrency();
+        String getFlagLink();
+        String getCapital();
+        void setName(String name);
+        void setCurrency(RealmList<RealmCurrency> currency);
+        void setFlagLink(String flagLink);
+        void setCapital(String capital);
     }
 
     interface Presenter {
         void onCreate(Bundle bundle);
-
-        void onSaveInstanceState( Bundle outState);
+        void onSaveInstanceState(Bundle outState);
     }
 }

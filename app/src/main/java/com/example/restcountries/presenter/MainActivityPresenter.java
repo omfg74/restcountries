@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.PictureDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
+import android.os.Handler;
 
 import com.bumptech.glide.RequestBuilder;
 import com.example.restcountries.RestCountries;
@@ -41,17 +41,19 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
     private RetrofitInterface retrofitInterface;
     RealmCountry realmCkeck;
     PictureDrawable pictureDrawable;
-    HashMap<String, PictureDrawable> pictureDrawableMap;
-    ArrayList<PictureDrawable> drawables;
+    HashMap<String,  byte[] > biteArrayMap;
+    ArrayList< byte[]> drawables;
     ArrayList<Country> countries = new ArrayList<>();
     private MainActivityContract.Model.LoadCountryInterface loadCountryInterface;
     private MainActivityContract.Model.PictoreLoaderInterface pictureLoaderInterface;
+    boolean useGlide = true;//change to enable or disable Glide usage in picture loading
+    int i= 0;
 
     public MainActivityPresenter(MainActivityContract.View view) {
         this.view = view;
         this.writerInterface = new DataBaseWriter();
         this.pictureLoaderInterface = new PictureLoader(this);
-        this.pictureDrawableMap = new HashMap<>();
+        this.biteArrayMap = new HashMap<>();
         this.drawables = new ArrayList<>();
     }
 
@@ -63,6 +65,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
 
     void loadCountries() {
         view.progressBarSetVisible();
+        if (loadCountryInterface instanceof DbModel){
+            view.progressBarSetSize(250);
+        }
         compositeDisposable.add(
                 loadCountryInterface.loadCountry()
                         .subscribeOn(Schedulers.io())
@@ -76,28 +81,27 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
                         .doOnComplete(new Action() {
                             @Override
                             public void run() throws Exception {
-//                                view.changeFragment(countries, pictureDrawableMap);
-                                view.progressBarSetSize(countries.size());
+                                if (loadCountryInterface instanceof NetworkModel) {
+                                    view.progressBarSetSize(countries.size());
+                                }else if(loadCountryInterface instanceof DbModel) {
+                                    view.progressBarSetInvisible();
+                                    view.changeFragment(countries);
+                                }
                             }
                         }).subscribe(
-                                new Consumer<Country>() {
-                                    @Override
-                                    public void accept(Country country) throws Exception {
-                                        if (loadCountryInterface instanceof NetworkModel) {
-                                          writerInterface.writeToDatabase(country);
-                                        }
+                        new Consumer<Country>() {
+                            @Override
+                            public void accept(Country country) throws Exception {
+                                if (loadCountryInterface instanceof NetworkModel) {
+                                    writerInterface.writeToDatabase(country);
+                                    pictureLoaderInterface.loadPictures(country, useGlide);
+                               }else if(loadCountryInterface instanceof DbModel) {
+                                    view.progressBarSetProgress(countries.size());
+                            }
+                                countries.add(country);
+                            }
 
-
-                                            pictureLoaderInterface.loadPictures(country);
-
-//                                       pictureDrawableMap.put(country.getFlag(),pictureLoaderInterface.loadPictures(country));
-                                        countries.add(country);
-
-                                    }
-
-                                }));
-
-
+                        }));
     }
 
     private void checkIfRealmIsEmpty() {
@@ -135,13 +139,28 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Dr
     }
 
     @Override
-    public void callback(Country country, PictureDrawable pictureDrawable) {
-        drawables.add(pictureDrawable);
+    public void callback(Country country,  byte[] bitmapdata) {
+        if(loadCountryInterface instanceof NetworkModel){
+            if (!useGlide){
+        drawables.add(bitmapdata);
         view.progressBarSetProgress(drawables.size());
-        pictureDrawableMap.put(country.getFlag(),pictureDrawable);
-        if(drawables.size()==countries.size()){
-            view.changeFragment(countries,pictureDrawableMap);
+        biteArrayMap.put(country.getFlag(), bitmapdata);
+        if (drawables.size() == countries.size()) {
+            view.changeFragment(countries, biteArrayMap);
+            view.progressBarSetInvisible();
+        }
+    }
+        }
+    }
+
+    @Override
+    public void callback() {
+        i++;
+        view.progressBarSetProgress(i);
+        if (countries.size()==i) {
+            view.changeFragment(countries);
             view.progressBarSetInvisible();
         }
     }
 }
+

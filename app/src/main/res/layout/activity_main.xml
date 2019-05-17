@@ -22,7 +22,7 @@
         android:layout_gravity="center"
         android:indeterminate="false"
         android:max="250"
-        style="?android:attr/progressBarStyleHorizontal"
+    style="?android:attr/progressBarStyleHorizontal"
         android:visibility="invisible" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

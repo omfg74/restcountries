@@ -55,9 +55,13 @@ public class MainListFragment extends Fragment implements MainListFragmentContra
     }
 
     @Override
-    public void postDataToList(Country country, PictureDrawable pictureDrawable) {
-        Log.d("Log","pic "+pictureDrawable);
-        countriesAdapter.apendData(country, pictureDrawable);
+    public void postDataToList(Country country, byte[] bytes) {
+        countriesAdapter.apendData(country, bytes);
+    }
+
+    @Override
+    public void postDataToList(Country country) {
+        countriesAdapter.apendData(country);
     }
 
     @Override

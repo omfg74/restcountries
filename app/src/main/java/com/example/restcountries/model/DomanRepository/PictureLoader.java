@@ -1,5 +1,9 @@
 package com.example.restcountries.model.DomanRepository;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Picture;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
@@ -28,6 +32,7 @@ import com.example.restcountries.model.country.Country;
 import com.example.restcountries.model.svg.SvgSoftwareLayerSetter;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,7 +51,7 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
     }
 
     @Override
-    public PictureDrawable loadPictures(Country country) {
+    public PictureDrawable loadPictures(Country country, boolean useGlide) {
 
 
         try {
@@ -62,20 +67,31 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
 
                         @Override
                         public boolean onResourceReady(PictureDrawable resource, Object model, Target<PictureDrawable> target, DataSource dataSource, boolean isFirstResource) {
-                            if(resource==null){
-//                                Log.d("Log","RESOURSE NULL");
-                            };
-//                            pictureDrawable=resource;
+                            if (resource == null) {
+                            }
+
                             return false;
                         }
                     });
             requestBuilder.diskCacheStrategy(DiskCacheStrategy.DATA);
             requestBuilder
                     .load(uri)
+                    .override(100, 100)
                     .into(new CustomTarget<PictureDrawable>() {
                         @Override
                         public void onResourceReady(@NonNull PictureDrawable resource, @Nullable Transition<? super PictureDrawable> transition) {
-                            callback.callback(country,resource);
+                            if(!useGlide) {
+                                //Приходится ковертировать все в byte[] иначе возникают краши из-за сериализации.
+                                Bitmap bitmap = Bitmap.createBitmap(resource.getIntrinsicWidth(), resource.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                                Canvas canvas = new Canvas(bitmap);
+                                Picture drawable = resource.getPicture();
+                                drawable.draw(canvas);
+                                resource.draw(canvas);
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                                byte[] bitmapdata = stream.toByteArray();
+                                callback.callback(country, bitmapdata);
+                            }else callback.callback();
                         }
 
                         @Override

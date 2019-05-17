@@ -1,12 +1,13 @@
 
 package com.example.restcountries.model.country;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RegionalBloc {
+public class RegionalBloc implements Serializable {
 
     @SerializedName("acronym")
     @Expose

@@ -1,13 +1,14 @@
 
 package com.example.restcountries.model.country;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.example.restcountries.network.BaseResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Country extends BaseResponse {
+public class Country extends BaseResponse implements Serializable {
 
     @SerializedName("name")
     @Expose

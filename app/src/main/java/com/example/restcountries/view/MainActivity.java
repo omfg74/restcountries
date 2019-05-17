@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void makeTost(String s) {
-        Snackbar.make(progressBar,s,Snackbar.LENGTH_LONG).show();
+        Snackbar.make(progressBar, s, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void changeFragment(ArrayList<Country> countries, HashMap<String, PictureDrawable> pictureDrawableMap) {
+    public void changeFragment(ArrayList<Country> countries, HashMap<String,  byte[] > bitmapdata) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.COUNTRIES_KEY, countries);
-        bundle.putSerializable(Constants.COUNTRIES_FLAG, pictureDrawableMap);
+        bundle.putSerializable(Constants.COUNTRIES_FLAG, bitmapdata);
         MainListFragment mainListFragment = new MainListFragment();
         mainListFragment.setArguments(bundle);
         getSupportFragmentManager()
@@ -56,6 +56,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 .replace(R.id.main_fragment_place, mainListFragment)
                 .commit();
 
+    }
+
+    @Override
+    public void changeFragment(ArrayList<Country> countries) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.COUNTRIES_KEY, countries);
+        MainListFragment mainListFragment = new MainListFragment();
+        mainListFragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_place, mainListFragment)
+                .commit();
     }
 
     @Override

@@ -18,11 +18,18 @@ import io.realm.RealmList;
 public interface MainActivityContract extends MvpView {
     interface View {
         void makeTost(String s);
-        void changeFragment(ArrayList<Country> countries, HashMap<String, PictureDrawable> pictureDrawableMap);
+
+        void changeFragment(ArrayList<Country> countries, HashMap<String,  byte[] >   bitmapdata);
+        void changeFragment(ArrayList<Country>countries);
+
         void showAlertDialog();
+
         void progressBarSetVisible();
+
         void progressBarSetInvisible();
+
         void progressBarSetProgress(int progress);
+
         void progressBarSetSize(int size);
     }
 
@@ -55,11 +62,13 @@ public interface MainActivityContract extends MvpView {
         interface LoadCountryInterface {
             Observable<Country> loadCountry();
         }
-        interface DataBaseWriterInterface{
+
+        interface DataBaseWriterInterface {
             void writeToDatabase(Country country);
         }
-        interface PictoreLoaderInterface{
-            PictureDrawable loadPictures(Country country);
+
+        interface PictoreLoaderInterface {
+            PictureDrawable loadPictures(Country country, boolean useGlide);
         }
     }
 }

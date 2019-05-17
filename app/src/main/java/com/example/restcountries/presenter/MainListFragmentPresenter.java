@@ -29,7 +29,7 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
     MainListFragmentContract.Model model;
     RequestBuilder<PictureDrawable> requestBuilder;
     ArrayList<Country> countries = new ArrayList<>();
-    HashMap<String, PictureDrawable>pictureDrawableHashMap;
+    HashMap<String, byte[]> byteArrayMap;
 
     public MainListFragmentPresenter(MainListFragmentContract.View view) {
         this.view = view;
@@ -38,25 +38,44 @@ public class MainListFragmentPresenter implements MainListFragmentContract.Prese
 
     @Override
     public void onCreate(Bundle bundle) {
-        pictureDrawableHashMap = (HashMap<String, PictureDrawable>) bundle.getSerializable(Constants.COUNTRIES_FLAG);
         countries = (ArrayList<Country>) bundle.getSerializable(Constants.COUNTRIES_KEY);
-        loadPictures(countries, pictureDrawableHashMap);
+
+        if(bundle.containsKey(Constants.COUNTRIES_FLAG)) {
+            byteArrayMap = (HashMap<String, byte[]>) bundle.getSerializable(Constants.COUNTRIES_FLAG);
+            loadPictures(countries, byteArrayMap);
+        }else {
+            loadPictures(countries);
+        }
+
     }
 
-    @Override
-    public void onSaveInstanceState( Bundle outState) {
-        outState.putSerializable("countries",countries);
-        outState.putSerializable("hashmap",pictureDrawableHashMap);
-    }
-
-    private void loadPictures(ArrayList<Country> countries,  HashMap<String, PictureDrawable>pictureDrawableHashMap) {
+    private void loadPictures(ArrayList<Country> countries) {
         Observable.fromIterable(countries)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Country>() {
                     @Override
                     public void accept(Country country) throws Exception {
-                        view.postDataToList(country, pictureDrawableHashMap.get(country.getFlag()));
+                        view.postDataToList(country);
+                    }
+                });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("countries", countries);
+        outState.putSerializable("hashmap", byteArrayMap);
+    }
+
+    private void loadPictures(ArrayList<Country> countries, HashMap<String, byte[]> byteArrayMap) {
+
+        Observable.fromIterable(countries)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Country>() {
+                    @Override
+                    public void accept(Country country) throws Exception {
+                        view.postDataToList(country, byteArrayMap.get(country.getFlag()));
                     }
                 });
     }

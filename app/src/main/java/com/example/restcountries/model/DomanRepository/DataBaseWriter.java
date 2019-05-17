@@ -11,6 +11,7 @@ import io.realm.RealmList;
 public class DataBaseWriter implements MainActivityContract.Model.DataBaseWriterInterface {
 
     RealmCountry realmCounrty = new RealmCountry();
+
     @Override
     public void writeToDatabase(Country country) {
         //write data from internet to realm

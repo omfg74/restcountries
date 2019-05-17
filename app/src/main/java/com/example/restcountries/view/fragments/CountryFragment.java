@@ -46,7 +46,6 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
         currencyTextView = view.findViewById(R.id.currency_textView);
         presenter.onCreate(getArguments());
         presenter.loadFlag(flagImageView, getArguments());
-
         materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
