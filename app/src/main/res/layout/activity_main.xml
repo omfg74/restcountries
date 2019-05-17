@@ -7,22 +7,24 @@
     tools:context=".view.MainActivity">
 
     <TextView
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="220dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="LOading ..."
-        android:visibility="invisible"
+        android:layout_gravity="center_horizontal"
+
         />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="false"
         android:max="250"
+        style="?android:attr/progressBarStyleHorizontal"
         android:visibility="invisible" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

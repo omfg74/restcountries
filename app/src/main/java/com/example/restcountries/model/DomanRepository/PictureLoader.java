@@ -75,7 +75,6 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
                     .into(new CustomTarget<PictureDrawable>() {
                         @Override
                         public void onResourceReady(@NonNull PictureDrawable resource, @Nullable Transition<? super PictureDrawable> transition) {
-//                            pictureDrawable=resource;
                             callback.callback(country,resource);
                         }
 
@@ -87,9 +86,6 @@ public class PictureLoader implements MainActivityContract.Model.PictoreLoaderIn
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        ; if(pictureDrawable==null){
-//            Log.d("Log","PICTURE NULL");
-//        }
         return null;
     }
 

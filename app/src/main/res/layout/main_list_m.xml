@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_margin="4dp"
-    android:layout_height="100dp">
+    >
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:id="@+id/recyClerViewImageView" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/alphaWhite">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerViewTextView" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_gravity="top|center_horizontal"
+            android:minWidth="100dp"
+            android:minHeight="100dp">
+
+            <ImageView
+                android:id="@+id/recyClerViewImageView"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/alphaWhite">
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:id="@+id/recyclerViewTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.09"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

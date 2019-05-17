@@ -14,11 +14,13 @@ import androidx.fragment.app.DialogFragment;
 import com.example.restcountries.R;
 import com.example.restcountries.contract.CountryFragmentContract;
 import com.example.restcountries.presenter.CountryFargmentPresenter;
+import com.google.android.material.button.MaterialButton;
 
 public class CountryFragment extends DialogFragment implements CountryFragmentContract.View {
     private ImageView flagImageView;
     private TextView nameTextView, capitalTextView, currencyTextView;
     private CountryFragmentContract.Presenter presenter;
+    MaterialButton materialButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
         super.onViewCreated(view, savedInstanceState);
 
         presenter = new CountryFargmentPresenter(this);
+        materialButton = view.findViewById(R.id.material_button);
         flagImageView = view.findViewById(R.id.flagImageView);
         nameTextView = view.findViewById(R.id.country_name_text_view);
         capitalTextView = view.findViewById(R.id.capital_textView);
@@ -44,6 +47,12 @@ public class CountryFragment extends DialogFragment implements CountryFragmentCo
         presenter.onCreate(getArguments());
         presenter.loadFlag(flagImageView, getArguments());
 
+        materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     @Override
