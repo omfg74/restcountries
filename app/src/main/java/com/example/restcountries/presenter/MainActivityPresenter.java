@@ -33,7 +33,7 @@ import static com.bumptech.glide.Glide.with;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivityPresenter implements MainActivityContract.Presenter, DrawableCallback {
-
+//This is load all then show branche
     MainActivityContract.View view;
     MainActivityContract.Model.DataBaseWriterInterface writerInterface;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
